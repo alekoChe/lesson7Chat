@@ -17,6 +17,8 @@ public class Controller {
     @FXML
     public ListView<String> clientList;
     @FXML
+    public TextField clientNick;
+    @FXML
     private HBox messageBox;
     @FXML
     private PasswordField passwordField;
@@ -73,5 +75,9 @@ public class Controller {
     public void updateClientList(List<String> clients) {
         clientList.getItems().clear();
         clientList.getItems().addAll(clients);
+    }
+
+    public void assigningUserNickToForm(String nick) {
+        clientNick.setText("Мы рады что вы с нами, " + nick + "!");
     }
 }

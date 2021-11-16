@@ -22,7 +22,11 @@
                 <Button text="Send" defaultButton="true" onAction="#btnSendClick"/>
             </HBox>
         </VBox>
-        <ListView fx:id="clientList" minWidth="200" maxWidth="200" onMouseClicked="#selectClient"/>
+        <VBox spacing="5">
+            <TextField fx:id="clientNick" editable="false"  ></TextField>
+            <ListView fx:id="clientList" minWidth="200" maxWidth="200" onMouseClicked="#selectClient"/>
+
+        </VBox>
     </HBox>
 </VBox>
 

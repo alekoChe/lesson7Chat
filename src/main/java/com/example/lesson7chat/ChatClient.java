@@ -33,7 +33,7 @@ public class ChatClient {
                         if (msgAuth.startsWith("/authok")) {
                             final String[] split = msgAuth.split(" ");
                             final String nick = split[1];
-                            //
+                            controller.assigningUserNickToForm(nick); // выводим в спец. поле имя клиента
                             controller.addMessage("Успешная авторизация под ником " + nick);
                             controller.setAuth(true);
                             break;
