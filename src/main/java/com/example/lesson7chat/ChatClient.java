@@ -28,11 +28,13 @@ public class ChatClient {
             out = new DataOutputStream(socket.getOutputStream());
             new Thread(() -> {
                 try {
+                    final String nick;
                     while (true) {
                         final String msgAuth = in.readUTF();
                         if (msgAuth.startsWith("/authok")) {
                             final String[] split = msgAuth.split(" ");
-                            final String nick = split[1];
+                            //final String nick = split[1];
+                            nick = split[1];
                             controller.assigningUserNickToForm(nick); // выводим в спец. поле имя клиента
                             controller.addMessage("Успешная авторизация под ником " + nick);
                             controller.setAuth(true);
@@ -48,8 +50,9 @@ public class ChatClient {
                                 break;
                             }
                             if (message.startsWith("/clients")) { // /clients nick1 nick0 nick3 ...
-                                final  String[] tokens = message.replace("/clients ", "").split(" "); // удаляем
+                                //final  String[] tokens = message.replace("/clients ", "").split(" "); // удаляем
                                 // нулевой элемент /clients из массива и сплитуем оставшийся массив
+                                final  String[] tokens = message.replace("/clients ", "").replace(nick, "").split(" ");
                                  final List<String> clients = Arrays.asList(tokens);
                                  controller.updateClientList(clients);
                             }
