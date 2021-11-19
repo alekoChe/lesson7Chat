@@ -68,7 +68,7 @@ public class ClientHandler {
     }
 
     private void authenticate() {
-        while (true) {
+        while (true) {  // true
             try {
                 final String str = in.readUTF();
                 if (str.startsWith("/auth")) {   // auth + login0 + pass0

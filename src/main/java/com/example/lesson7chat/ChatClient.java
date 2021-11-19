@@ -13,6 +13,7 @@ public class ChatClient {
     private DataInputStream in;
     private DataOutputStream out;
 
+    private boolean nickIsInitialisation = false; // статус инициализации пользователя
 
     private final Controller controller;
 
@@ -29,12 +30,25 @@ public class ChatClient {
             new Thread(() -> {
                 try {
                     final String nick;
+                    Thread thread = new Thread(new Runnable() { // поток для запуска хронометра
+                        @Override
+                        public void run() {
+                            long start = System.currentTimeMillis();
+                            long end = start + 120*1000; // 120 seconds * 1000 ms/sec
+                            while (System.currentTimeMillis() < end) {
+                            }
+                            if (nickIsInitialisation == false) { // если клиент не инициализировался
+                                closeConnection();
+                            }
+                        }
+                    });
+                    thread.start();
                     while (true) {
                         final String msgAuth = in.readUTF();
                         if (msgAuth.startsWith("/authok")) {
                             final String[] split = msgAuth.split(" ");
-                            //final String nick = split[1];
                             nick = split[1];
+                            nickIsInitialisation = true;
                             controller.assigningUserNickToForm(nick); // выводим в спец. поле имя клиента
                             controller.addMessage("Успешная авторизация под ником " + nick);
                             controller.setAuth(true);
@@ -70,7 +84,7 @@ public class ChatClient {
         }
     }
 
-    private void closeConnection() {
+    private void closeConnection() { // private
         if (socket != null) {
             try {
                 socket.close();
